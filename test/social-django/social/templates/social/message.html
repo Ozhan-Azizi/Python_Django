@@ -1,0 +1,27 @@
+{% extends "social/base.html" %}
+
+{% block content %}
+<div class='main'>
+<h3>Viewing {{ greeting }} messages</h3>
+
+
+      <form method='post' action='/social/messages/?view={{ view_user }}''>
+      {% csrf_token %}
+      Type here to leave a message:<br>
+      <textarea name='text' cols='40' rows='3'>{{ text }}</textarea><br>
+      Public<input type='radio' name='pm' value='0' checked='checked'>
+      Private<input type='radio' name='pm' value='1'>
+      <input type='submit' value='Post Message'></form><br>
+{% for a in messages %}
+	{{ a.mytime }} : <a href="?view={{ a.createdby }}">{{ a.createdby }}</a> Whispered: <span class='whisper'>&quot;{{ a.text }}&quot;</span>
+	<br>
+{% endfor %}
+<br>
+{% for b in publicMessage %}
+	{{ b.mytime }} : <a href="?view={{ b.createdby }}">{{ b.createdby }}</a> wrote: &quot;{{ b.text }}&quot;
+	<br>
+{% endfor %}
+<br>
+<a class='button' href=''>Refresh messages</a>
+</div>
+{% endblock %}
